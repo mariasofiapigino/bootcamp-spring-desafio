@@ -5,6 +5,7 @@ import com.desafio.desafiospring.dtos.StatusCodeDTO;
 import com.desafio.desafiospring.exceptionsHandler.DataNotFound;
 import com.desafio.desafiospring.exceptionsHandler.InvalidFilter;
 import com.desafio.desafiospring.exceptionsHandler.InvalidProduct;
+import com.desafio.desafiospring.exceptionsHandler.ServerError;
 import com.desafio.desafiospring.services.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,13 @@ public class StoreController {
     }
 
     @PostMapping("/purchase-request")
-    public ResponseEntity purchase(@RequestBody ArticlesDTO articles) throws IOException, InvalidProduct {
+    public ResponseEntity purchase(@RequestBody ArticlesDTO articles) throws IOException, InvalidProduct, ServerError {
         return ResponseEntity.ok(storeService.getTicket(articles));
+    }
+
+    @GetMapping("/shopping-cart")
+    public ResponseEntity getShoppingCart(){
+        return ResponseEntity.ok(storeService.getShoppingCart());
     }
 
     @ExceptionHandler(IOException.class)
@@ -52,5 +58,11 @@ public class StoreController {
     public ResponseEntity<StatusCodeDTO> handleException(InvalidFilter e) {
         StatusCodeDTO errorDTO = new StatusCodeDTO(400, e.getMessage());
         return ResponseEntity.badRequest().body(errorDTO);
+    }
+
+    @ExceptionHandler(ServerError.class)
+    public ResponseEntity<StatusCodeDTO> handleException(ServerError e) {
+        StatusCodeDTO errorDTO = new StatusCodeDTO(400, e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDTO);
     }
 }

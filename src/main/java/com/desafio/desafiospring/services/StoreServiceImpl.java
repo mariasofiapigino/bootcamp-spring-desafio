@@ -4,9 +4,11 @@ import com.desafio.desafiospring.dtos.*;
 import com.desafio.desafiospring.exceptionsHandler.DataNotFound;
 import com.desafio.desafiospring.exceptionsHandler.InvalidFilter;
 import com.desafio.desafiospring.exceptionsHandler.InvalidProduct;
+import com.desafio.desafiospring.exceptionsHandler.ServerError;
 import com.desafio.desafiospring.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,9 +18,10 @@ public class StoreServiceImpl implements StoreService{
     @Autowired
     private ProductsRepository productsRepository;
 
+    private final List<TicketDTO> shoppingCart = new ArrayList<>();
+
     @Override
     public List<ProductDTO> getProducts(Map<String, String> params) throws IOException, InvalidFilter, DataNotFound {
-        // TODO separar un poco
         List<ProductDTO> result;
 
         // Cuando se ingresan mas de un filtro o el filtro cantidad
@@ -36,11 +39,11 @@ public class StoreServiceImpl implements StoreService{
             params.remove("order");
         }
 
-        // Cuando no se ingresan parametros de busqueda
+        // Cuando no se ingresan parametros de busqueda (filtros)
         if (params.isEmpty()){
             result = productsRepository.getProducts();
         } else {
-            // Cuando si se ingresan parametros de busqueda, se obtienen los parametros
+            // Cuando si se ingresan parametros de busqueda (filtros), se obtienen los parametros
             List<String> key = new ArrayList<>();
             List<String> value = new ArrayList<>();
             for(Map.Entry<String,String> entry:params.entrySet()) {
@@ -113,15 +116,23 @@ public class StoreServiceImpl implements StoreService{
         Integer total = 0;
         for (int i = 0; i < articles.size(); i++) {
             ProductDTO productDTO = productsRepository.getProductById(articles.get(i).getProductId());
-            if (!(productDTO.getName().toLowerCase(Locale.ROOT).equals(articles.get(i).getName().toLowerCase(Locale.ROOT))))
-                throw new InvalidProduct("No existe un producto con ID " + articles.get(i).getProductId() + " y nombre " + articles.get(i).getName());
-            if (!(productDTO.getBrand().toLowerCase(Locale.ROOT).equals(articles.get(i).getBrand().toLowerCase(Locale.ROOT))))
-                throw new InvalidProduct("No existe un producto con ID " + articles.get(i).getProductId() + " y marca " + articles.get(i).getBrand());
-            if (!(productDTO.getQuantity() >= articles.get(i).getQuantity()))
-                throw new InvalidProduct("No hay suficiente stock del producto con ID " + articles.get(i).getProductId() + ", solo contamos con " + productDTO.getQuantity() + " unidades");
-            total += Integer.parseInt(productDTO.getPrice().replace("$","").replace(".",""));
+            validateProduct(articles, productDTO, i);
+            productsRepository.updateStock(articles.get(i));
+            total += Integer.parseInt(productDTO.getPrice().replace("$","").replace(".","")) * articles.get(i).getQuantity();
         }
         return total;
+    }
+
+    private void validateProduct(List<ProductResponseDTO> articles, ProductDTO productDTO, Integer i) throws InvalidProduct {
+        if (articles.get(i).getName() == null || articles.get(i).getProductId() == null ||
+                articles.get(i).getBrand() == null || articles.get(i).getQuantity() == null)
+            throw new InvalidProduct("Datos Incompletos");
+        if (!(productDTO.getName().toLowerCase(Locale.ROOT).equals(articles.get(i).getName().toLowerCase(Locale.ROOT))))
+            throw new InvalidProduct("No existe un producto con ID " + articles.get(i).getProductId() + " y nombre " + articles.get(i).getName());
+        if (!(productDTO.getBrand().toLowerCase(Locale.ROOT).equals(articles.get(i).getBrand().toLowerCase(Locale.ROOT))))
+            throw new InvalidProduct("No existe un producto con ID " + articles.get(i).getProductId() + " y marca " + articles.get(i).getBrand());
+        if (!(productDTO.getQuantity() >= articles.get(i).getQuantity()))
+            throw new InvalidProduct("No hay suficiente stock del producto con ID " + articles.get(i).getProductId() + ", solo contamos con " + productDTO.getQuantity() + " unidades");
     }
 
     @Override
@@ -130,8 +141,23 @@ public class StoreServiceImpl implements StoreService{
         Integer total = getTotalPrice(articles.getArticles());
         TicketDTO ticketDTO = new TicketDTO(articles.getArticles(), total);
         StatusCodeDTO statusCodeDTO = new StatusCodeDTO(200, "La solicitud de compra se completó con éxito");
+        shoppingCart.add(ticketDTO);
         ResponseLoadDTO responseLoadDTO = new ResponseLoadDTO(ticketDTO, statusCodeDTO);
         return responseLoadDTO;
+    }
+
+    // Shopping Cart
+    @Override
+    public Object getShoppingCart() {
+        return calculateTotal();
+    }
+
+    private ShoppingCartDTO calculateTotal() {
+        ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO(shoppingCart);
+        for (int i = 0; i < shoppingCart.size(); i++) {
+            shoppingCartDTO.setTotal(shoppingCartDTO.getTotal() + shoppingCart.get(i).getTotal());
+        }
+        return shoppingCartDTO;
     }
 
 }

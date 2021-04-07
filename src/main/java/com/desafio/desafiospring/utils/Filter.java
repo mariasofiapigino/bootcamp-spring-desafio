@@ -17,7 +17,7 @@ public class Filter {
             case "price":
                 return product -> product.getPrice().replace(".","").replace("$","").equals(value);
             case "freeShipping":
-                return product -> product.getFreeShipping().toLowerCase(Locale.ROOT).contains(value.toLowerCase(Locale.ROOT));
+                return product -> product.getFreeShipping().equals(Boolean.valueOf(value));
             case "prestige":
                 return product -> String.valueOf(product.getPrestige().length()).equals(value);
             default:

@@ -1,8 +1,12 @@
 package com.desafio.desafiospring.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDTO {
     private Integer productId;
     private String name;
@@ -10,6 +14,6 @@ public class ProductDTO {
     private String brand;
     private String price;
     private Integer quantity;
-    private String freeShipping;
+    private Boolean freeShipping;
     private String prestige;
 }
