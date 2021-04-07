@@ -1,0 +1,122 @@
+[
+  {
+    "productId": 1,
+    "name": "Desmalezadora",
+    "category": "Herramientas",
+    "brand": "Makita",
+    "price": "$9.600",
+    "quantity": 5,
+    "freeShipping": "SI",
+    "prestige": "****"
+  },
+  {
+    "productId": 2,
+    "name": "Taladro",
+    "category": "Herramientas",
+    "brand": "Black & Decker",
+    "price": "$12.500",
+    "quantity": 7,
+    "freeShipping": "SI",
+    "prestige": "****"
+  },
+  {
+    "productId": 3,
+    "name": "Soldadora",
+    "category": "Herramientas",
+    "brand": "Black & Decker",
+    "price": "$7.215",
+    "quantity": 10,
+    "freeShipping": "SI",
+    "prestige": "***"
+  },
+  {
+    "productId": 4,
+    "name": "Zapatillas Deportivas",
+    "category": "Deportes",
+    "brand": "Adidas",
+    "price": "$13.650",
+    "quantity": 6,
+    "freeShipping": "SI",
+    "prestige": "*****"
+  },
+  {
+    "productId": 5,
+    "name": "Zapatillas Deportivas",
+    "category": "Deportes",
+    "brand": "Nike",
+    "price": "$14.000",
+    "quantity": 4,
+    "freeShipping": "SI",
+    "prestige": "*****"
+  },
+  {
+    "productId": 6,
+    "name": "Camiseta",
+    "category": "Deportes",
+    "brand": "Topper",
+    "price": "$2.300",
+    "quantity": 2,
+    "freeShipping": "NO",
+    "prestige": "***"
+  },
+  {
+    "productId": 7,
+    "name": "Redmi Note 9",
+    "category": "Celulares",
+    "brand": "Xiaomi",
+    "price": "$40.000",
+    "quantity": 15,
+    "freeShipping": "SI",
+    "prestige": "****"
+  },
+  {
+    "productId": 8,
+    "name": "Smartwatch",
+    "category": "Celulares",
+    "brand": "Noga",
+    "price": "$1.900",
+    "quantity": 20,
+    "freeShipping": "NO",
+    "prestige": "**"
+  },
+  {
+    "productId": 9,
+    "name": "Remera",
+    "category": "Indumentaria",
+    "brand": "Taverniti",
+    "price": "$2.300",
+    "quantity": 2,
+    "freeShipping": "NO",
+    "prestige": "***"
+  },
+  {
+    "productId": 10,
+    "name": "Chomba",
+    "category": "Indumentaria",
+    "brand": "Taverniti",
+    "price": "$2.400",
+    "quantity": 6,
+    "freeShipping": "NO",
+    "prestige": "***"
+  },
+  {
+    "productId": 11,
+    "name": "Medias",
+    "category": "Indumentaria",
+    "brand": "Mistral",
+    "price": "$500",
+    "quantity": 8,
+    "freeShipping": "NO",
+    "prestige": "*"
+  },
+  {
+    "productId": 12,
+    "name": "Short",
+    "category": "Indumentaria",
+    "brand": "Lacoste",
+    "price": "$3.900",
+    "quantity": 9,
+    "freeShipping": "SI",
+    "prestige": "***"
+  }
+]
