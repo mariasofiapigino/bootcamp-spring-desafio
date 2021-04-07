@@ -1,6 +1,9 @@
 package com.desafio.desafiospring.controllers;
 
+import org.springframework.util.ResourceUtils;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -10,28 +13,12 @@ public class main {
     public static final String QUOTE="\"";
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = null;
-
+        File file = null;
         try {
+            file = ResourceUtils.getFile("classpath:adbProductos.json");
 
-            br =new BufferedReader(new FileReader("resources/dbProductos.csv"));
-            String line = br.readLine();
-            while (null!=line) {
-                String [] fields = line.split(SEPARATOR);
-                System.out.println(Arrays.toString(fields));
-
-                fields = removeTrailingQuotes(fields);
-                System.out.println(Arrays.toString(fields));
-
-                line = br.readLine();
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (null!=br) {
-                br.close();
-            }
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
