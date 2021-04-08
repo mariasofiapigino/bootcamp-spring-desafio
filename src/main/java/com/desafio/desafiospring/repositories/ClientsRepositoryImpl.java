@@ -13,6 +13,7 @@ public class ClientsRepositoryImpl implements ClientsRepository{
 
     @Override
     public ClientDTO addClient(ClientDTO clientDTO) {
+        clientDTO.setId();
         clients.add(clientDTO);
         return clientDTO;
     }

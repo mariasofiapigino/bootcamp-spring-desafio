@@ -32,7 +32,7 @@ public class StoreController {
     }
 
     @GetMapping("/shopping-cart")
-    public ResponseEntity getShoppingCart(){
+    public ResponseEntity getShoppingCart() throws DataNotFound {
         return ResponseEntity.ok(storeService.getShoppingCart());
     }
 

@@ -21,5 +21,5 @@ public interface StoreService {
 
     Object getTicket(ArticlesDTO articles) throws IOException, InvalidProduct, ServerError;
 
-    Object getShoppingCart();
+    Object getShoppingCart() throws DataNotFound;
 }

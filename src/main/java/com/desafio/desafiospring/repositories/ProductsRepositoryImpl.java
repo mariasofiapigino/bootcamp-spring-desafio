@@ -6,8 +6,6 @@ import com.desafio.desafiospring.exceptionsHandler.DataNotFound;
 import com.desafio.desafiospring.exceptionsHandler.InvalidFilter;
 import com.desafio.desafiospring.exceptionsHandler.InvalidProduct;
 import com.desafio.desafiospring.utils.Filter;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
@@ -20,10 +18,12 @@ import java.util.stream.Collectors;
 public class ProductsRepositoryImpl implements ProductsRepository {
     private List<ProductDTO> repository = new ArrayList<>();
 
+    // Se carga la base de datos apenas de inicializa la clase
     public ProductsRepositoryImpl() throws IOException {
         this.repository = loadDataBase();
     }
 
+    // Se carga la base de datos desde el archivo dbProductos.csv
     private List<ProductDTO> loadDataBase() throws IOException {
         List<ProductDTO> products = new ArrayList();
         BufferedReader bufferReader = null;
@@ -37,17 +37,16 @@ public class ProductsRepositoryImpl implements ProductsRepository {
                 String[] attributes = line.split(",");
 
                 Boolean shipping = false;
-                if (attributes[6].toLowerCase(Locale.ROOT).equals("si")) shipping = true;
+                if (attributes[6].trim().toLowerCase(Locale.ROOT).equals("si")) shipping = true;
 
                 // productId,name,category,brand,price,quantity,freeShipping,prestige
-                ProductDTO productDTO = new ProductDTO(Integer.parseInt(attributes[0]), attributes[1], attributes[2],
-                        attributes[3], attributes[4], Integer.parseInt(attributes[5]), shipping, attributes[7]
-                );
+                ProductDTO productDTO = new ProductDTO(Integer.parseInt(attributes[0].trim()), attributes[1].trim(), attributes[2].trim(),
+                        attributes[3].trim(), attributes[4].trim(), Integer.parseInt(attributes[5].trim()), shipping, attributes[7].trim());
                 products.add(productDTO);
                 line = bufferReader.readLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Error al abrir el archivo");
         } finally {
             if (bufferReader != null) {
                 try {
@@ -58,7 +57,6 @@ public class ProductsRepositoryImpl implements ProductsRepository {
             }
         }
         return products;
-
     }
 
     @Override
@@ -88,14 +86,14 @@ public class ProductsRepositoryImpl implements ProductsRepository {
 
     @Override
     public ProductDTO getProductById(Integer productId) throws InvalidProduct {
-        for (int i = 0; i < repository.size(); i++) {
-            if (repository.get(i).getProductId().equals(productId)) return repository.get(i);
+        for (ProductDTO productDTO : repository) {
+            if (productDTO.getProductId().equals(productId)) return productDTO;
         }
         throw new InvalidProduct("No existe un producto con el ID " + productId);
     }
 
     @Override
-    public void updateStock(ProductResponseDTO productResponseDTO) throws IOException, InvalidProduct {
+    public void updateStock(ProductResponseDTO productResponseDTO) {
         for (int i = 0; i < repository.size(); i++) {
             if (repository.get(i).getProductId().equals(productResponseDTO.getProductId())){
                 Integer newStock = repository.get(i).getQuantity() - productResponseDTO.getQuantity();
