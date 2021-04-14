@@ -1,0 +1,24 @@
+{
+  "ticket": {
+    "id": 1,
+    "articles": [
+      {
+        "productId": 7,
+        "name": "Redmi Note 9",
+        "brand": "Xiaomi",
+        "quantity": 5
+      },
+      {
+        "productId": 5,
+        "name": "Zapatillas Deportivas",
+        "brand": "Nike",
+        "quantity": 2
+      }
+    ],
+    "total": 228000
+  },
+  "statusCode": {
+    "code": 200,
+    "message": "La solicitud de compra se completó con éxito"
+  }
+}

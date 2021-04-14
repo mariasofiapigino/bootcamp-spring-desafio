@@ -1,4 +1,4 @@
-# Bootcamp Mercado Libre - Desafío Spring 👩🏻‍💻
+# Bootcamp Mercado Libre - Desafío Spring
 
 * **Autor:** Sofía Pigino
 * **Fecha de Entrega:** 08/04/2021
@@ -23,23 +23,25 @@ A continuación algunos ejemplos para ejecutar las consignas:
 * Envío de Solicitud de Compra
     * `POST` http://localhost:8080/api/v1/purchase-request
     * JSON para el body request  
-      `{  
-      "articles":
-      [
-      {
-      "productId":1,
-      "name":"Desmalezadora",
-      "brand":"Makita",
-      "quantity":5
-      },
-      {
-      "productId":5,
-      "name":"Zapatillas Deportivas",
-      "brand":"Nike",
-      "quantity":2
+      ```
+      {  
+          "articles":
+          [
+              {
+              "productId":1,
+              "name":"Desmalezadora",
+              "brand":"Makita",
+              "quantity":3
+              },
+              {
+              "productId":5,
+              "name":"Zapatillas Deportivas",
+              "brand":"Nike",
+              "quantity":2
+              }
+          ]
       }
-      ]
-      }`
+      ```
 
 ### Actividad B
 A continuación algunos ejemplos para ejecutar las consignas:
@@ -51,12 +53,14 @@ A continuación algunos ejemplos para ejecutar las consignas:
     * Para esto considero que un cliente es ya existente si su mail ya está registrado
     * `POST` http://localhost:8080/api/v1/clients/new 
     * JSON para el body request
-      `{
-      "name":"Sofia",
-      "lastName":"Pigino",
-      "province":"Cordoba",
-      "email":"sofiapigino@gmail.com"
-      }`
+        ```
+      {
+          "name":"Sofia",
+          "lastName":"Pigino",
+          "province":"Cordoba",
+          "email":"sofiapigino@gmail.com"
+      }
+      ```
 * Obtener un listado completo de todos los clientes
     * Luego de cargar uno o más clientes
       `GET` http://localhost:8080/api/v1/clients/all

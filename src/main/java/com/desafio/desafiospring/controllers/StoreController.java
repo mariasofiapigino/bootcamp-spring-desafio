@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Hay tanto comentarios como un README.md que facilitan su entendimiento y ejecución
+ *
+ * @author  Sofia Pigino
+ * @version 1.0
+ */
+
 @RestController
 @RequestMapping("/api/v1")
 public class StoreController {

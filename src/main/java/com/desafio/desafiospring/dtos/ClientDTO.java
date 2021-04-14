@@ -1,8 +1,12 @@
 package com.desafio.desafiospring.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientDTO {
     private static Integer count = 1;
     private Integer id;

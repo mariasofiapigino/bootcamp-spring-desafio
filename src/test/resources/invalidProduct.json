@@ -1,0 +1,11 @@
+{
+  "articles":
+  [
+    {
+      "productId":2,
+      "name":"Taladroa",
+      "brand":"Black & Decker ",
+      "quantity":2
+    }
+  ]
+}
